@@ -1,0 +1,19 @@
+-- History.sq
+CREATE TABLE HistoryTbl (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    transcript TEXT NOT NULL,
+    scrum_id INTEGER NOT NULL REFERENCES DailyScrumTbl(id) ON DELETE CASCADE,
+    attendees TEXT NOT NULL,
+    datetime_utc TEXT NOT NULL
+);
+
+insertHistory:
+INSERT INTO HistoryTbl (transcript, scrum_id, attendees, datetime_utc)
+VALUES (?, ?, ?, ?);
+
+selectAllHistoryEntries:
+SELECT * FROM HistoryTbl;
+
+selectHistoryByScrumId:
+SELECT * FROM HistoryTbl
+WHERE scrum_id = ?;

@@ -1,0 +1,50 @@
+-- DailyScrum.sq
+CREATE TABLE DailyScrumTbl (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    lengthInMinutes INTEGER NOT NULL,
+    theme TEXT NOT NULL,
+    attendee TEXT NOT NULL
+);
+
+insertDailyScrum:
+INSERT INTO DailyScrumTbl (title, lengthInMinutes, theme, attendee)
+VALUES (?, ?, ?, ?);
+
+selectAllDailyScrums:
+SELECT * FROM DailyScrumTbl;
+
+selectDailyScrumById:
+SELECT * FROM DailyScrumTbl
+WHERE id = ?;
+
+updateDailyScrum:
+UPDATE DailyScrumTbl
+SET
+    title = ?,
+    lengthInMinutes = ?,
+    theme = ?,
+    attendee = ?
+WHERE id = ?;
+
+-- Query to get all DailyScrum with their associated histories
+selectDailyScrumsWithHistories:
+SELECT
+    d.id AS scrum_id,
+    d.title,
+    d.lengthInMinutes,
+    d.theme,
+    d.attendee,
+    h.id AS history_id,
+    h.transcript,
+    h.attendees AS history_attendees,
+    h.datetime_utc
+FROM
+    DailyScrumTbl d
+INNER JOIN
+    HistoryTbl h
+ON
+    d.id = h.scrum_id
+WHERE d.id = ?
+ORDER BY
+    d.id, h.datetime_utc;

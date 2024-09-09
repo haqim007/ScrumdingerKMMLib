@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="speaker_seconds_elapsed">Seconds Elapsed</string>
+    <string name="speaker_seconds_remaining">Seconds Remaining</string>
+    <string name="speaker_time_remaining">Time Remaining</string>
+    <string name="speaker_minutes">%d Minutes</string>
+</resources>
