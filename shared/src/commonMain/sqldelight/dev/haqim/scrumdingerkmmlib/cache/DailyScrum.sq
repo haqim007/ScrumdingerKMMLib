@@ -41,7 +41,7 @@ SELECT
     h.datetime_utc
 FROM
     DailyScrumTbl d
-INNER JOIN
+LEFT JOIN
     HistoryTbl h
 ON
     d.id = h.scrum_id

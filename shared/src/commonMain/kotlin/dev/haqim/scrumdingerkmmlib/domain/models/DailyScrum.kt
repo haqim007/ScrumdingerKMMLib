@@ -1,23 +1,8 @@
 package dev.haqim.scrumdingerkmmlib.domain.models
 
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.black
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.bubblegum
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.buttercup
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.indigo
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.lavender
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.magenta
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.navy
 import dev.haqim.scrumdingerkmmlib.domain.models.Theme.orange
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.oxblood
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.periwinkle
 import dev.haqim.scrumdingerkmmlib.domain.models.Theme.poppy
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.purple
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.seafoam
 import dev.haqim.scrumdingerkmmlib.domain.models.Theme.sky
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.tan
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.teal
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.white
-import dev.haqim.scrumdingerkmmlib.domain.models.Theme.yellow
 import dev.haqim.scrumdingerkmmlib.util.generateUniqueId
 
 
@@ -30,8 +15,11 @@ data class DailyScrum(
     var history: List<History> = emptyList()
 ) {
 
-    val themeString: String
+    var themeString: String
         get() = theme.colorName
+        set(value) {
+            theme = Theme.fromColorName(value) ?: Theme.yellow
+        }
 
     val accentColor: String
         get (){

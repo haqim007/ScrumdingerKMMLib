@@ -38,27 +38,33 @@ class Database(
             .asFlow()
             .mapToList(dispatcherProvider.default)
             .map {
-                it.groupBy { it.scrum_id }
+                val data = it
+                    .groupBy { it.scrum_id }
                     .map { (scrumId, scrumData) ->
                         val firstEntry = scrumData.first()
 
-                        val histories = scrumData.map { entry ->
-                            History(
-                                id = entry.history_id,
-                                dateTimeUTC = entry.datetime_utc,
-                                attendees = entry.attendee.split(",")
-                                    .filter { it.isNotBlank() }
-                                    .mapIndexed { index, name ->
-                                        DailyScrum.Attendee(
-                                            id = index.toLong(),
-                                            name = name
-                                        )
-                                    },
-                                transcript = entry.transcript
-                            )
-                        }.sortedByDescending {
-                            it.dateTimeUTC
-                        }
+                        val histories = scrumData
+                            .filter {
+                                it.history_id != null
+                            }
+                            .map { entry ->
+                                History(
+                                    id = entry.history_id!!,
+                                    dateTimeUTC = entry.datetime_utc ?: "",
+                                    attendees = entry.attendee.split(",")
+                                        .filter { it.isNotBlank() }
+                                        .mapIndexed { index, name ->
+                                            DailyScrum.Attendee(
+                                                id = index.toLong(),
+                                                name = name
+                                            )
+                                        },
+                                    transcript = entry.transcript
+                                )
+                            }
+                            .sortedByDescending {
+                                it.dateTimeUTC
+                            }
 
                         DailyScrum(
                             id = scrumId,
@@ -75,7 +81,9 @@ class Database(
                                 },
                             history = histories
                         )
-                    }[0]
+                    }
+
+                return@map if (data.isNotEmpty()) data[0] else null
             }
     }
 

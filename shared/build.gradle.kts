@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.skie)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.mokoresources)
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 skie{
@@ -45,16 +45,8 @@ kotlin {
             baseName = "ScrumdingerKMMLib"
             isStatic = true
             binaryOptions["bundleId"] = "dev.haqim.scrumdingerKMMLib"
-
-//            val libType = when (target.preset?.name) {
-//                "iosArm64" -> "-iosarm64"
-//                "iosX64" -> "-iosx64"
-//                else -> ""
-//            }
-//            export("dev.icerock.moko:resources${libType}:${libs.versions.mokoRes}")
             export(libs.mokoresources)
-//            export(libs.mokographics) // toUIColor here
-            freeCompilerArgs += listOf("-Xoverride-konan-properties=minVersion.ios=15.0")
+            export(libs.mokographics) // toUIColor here
         }
         specRepos {
             name = "ScrumdingerKMMLib"
@@ -112,7 +104,7 @@ sqldelight {
 }
 
 multiplatformResources {
-    resourcesPackage.set("dev.haqim.scrumdingerKMMLib.shared") // required
+    resourcesPackage.set("dev.haqim.scrumdingerKMMLib") // required
     resourcesClassName.set("SharedRes") // optional, default MR
 }
 
